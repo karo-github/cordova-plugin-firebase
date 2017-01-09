@@ -20,12 +20,12 @@ xmlns:android="http://schemas.android.com/apk/res/android">
 				<param name="onload" value="true" />
 			</feature>
 		</config-file>
-		<config-file parent="/resources" target="res/values/strings.xml">
-			<string name="google_app_id">1:910459350970:ios:a8640c98edf4f1c9</string>
-		</config-file>
-		<config-file parent="/resources" target="res/values/strings.xml">
-			<string name="google_api_key">AIzaSyAPo8vR-ZUdC-LcKgva7OAnY0w2Q_pKU0Q</string>
-		</config-file>
+		<!--<config-file parent="/resources" target="res/values/strings.xml">-->
+			<!--<string name="google_app_id">1:910459350970:ios:a8640c98edf4f1c9</string>-->
+		<!--</config-file>-->
+		<!--<config-file parent="/resources" target="res/values/strings.xml">-->
+			<!--<string name="google_api_key">AIzaSyAPo8vR-ZUdC-LcKgva7OAnY0w2Q_pKU0Q</string>-->
+		<!--</config-file>-->
 		<config-file target="AndroidManifest.xml" parent="/*">
 				<uses-permission android:name="android.permission.INTERNET" />
 				<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
