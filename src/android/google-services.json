@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "910459350970",
+    "firebase_url": "https://prolawyers-1314.firebaseio.com",
+    "project_id": "prolawyers-1314",
+    "storage_bucket": "prolawyers-1314.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:910459350970:android:a8640c98edf4f1c9",
+        "android_client_info": {
+          "package_name": "com.webkaro.prolawyers"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "910459350970-1nv6dd7j5goj807sh51hj5n0d1856tui.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "910459350970-odcbn6lk9v3os2h51dpr2cm146vuhbgh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPo8vR-ZUdC-LcKgva7OAnY0w2Q_pKU0Q"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
