@@ -20,6 +20,7 @@ repositories {
       mavenLocal()
 }
 dependencies {
+	
     compile 'me.leolin:ShortcutBadger:1.1.4@aar'
 	compile 'com.google.firebase:firebase-core:9.0.0'
 	compile 'com.google.firebase:firebase-messaging:9.0.0'
