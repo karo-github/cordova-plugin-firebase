@@ -9,6 +9,12 @@ buildscript {
         classpath 'com.google.gms:google-services:3.0.0'
     }
 }
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.0"
+
+}
+
 repositories {
     jcenter()
       mavenLocal()
