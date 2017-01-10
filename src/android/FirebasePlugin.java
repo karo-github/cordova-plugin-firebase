@@ -2,39 +2,31 @@ package org.apache.cordova.firebase;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
-import android.os.Bundle;
-import android.content.Context;
-import android.content.SharedPreferences;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigInfo;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigValue;
-import org.apache.cordova.CordovaPlugin;
+import me.leolin.shortcutbadger.ShortcutBadger;
 import org.apache.cordova.CallbackContext;
+import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.PluginResult;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.analytics.FirebaseAnalytics;
-import com.google.firebase.messaging.FirebaseMessaging;
-
-import java.lang.ref.WeakReference;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
-import java.util.ArrayList;
-
-import me.leolin.shortcutbadger.ShortcutBadger;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.util.*;
 
 
 public class FirebasePlugin extends CordovaPlugin {
@@ -89,7 +81,7 @@ public class FirebasePlugin extends CordovaPlugin {
             this.logEvent(callbackContext, args.getString(0), args.getJSONObject(1));
             return true;
         } else if (action.equals("setUserId")) {
-            this.setUserId (callbackContext, args.getString(0));
+            this.setUserId(callbackContext, args.getString(0));
             return true;
         } else if (action.equals("setUserProperty")) {
             this.setUserProperty(callbackContext, args.getString(0), args.getString(1));
@@ -161,14 +153,16 @@ public class FirebasePlugin extends CordovaPlugin {
                         FirebasePlugin.sendToken(currentToken);
                     }
                 } catch (Exception e) {
-                    callbackContext.error(e.getMessage());
+                    StringWriter stringWriter = new StringWriter();
+                    e.printStackTrace(new PrintWriter(stringWriter));
+                    callbackContext.error(stringWriter.toString());
                 }
             }
         });
     }
 
     public static void sendNotification(Bundle bundle) {
-        if(!FirebasePlugin.hasNotificationsCallback()) {
+        if (!FirebasePlugin.hasNotificationsCallback()) {
             if (FirebasePlugin.notificationStack == null) {
                 FirebasePlugin.notificationStack = new ArrayList<Bundle>();
             }
@@ -183,7 +177,9 @@ public class FirebasePlugin extends CordovaPlugin {
                 try {
                     json.put(key, bundle.get(key));
                 } catch (JSONException e) {
-                    callbackContext.error(e.getMessage());
+                    StringWriter stringWriter = new StringWriter();
+                    e.printStackTrace(new PrintWriter(stringWriter));
+                    callbackContext.error(stringWriter.toString());
                     return;
                 }
             }
@@ -195,7 +191,7 @@ public class FirebasePlugin extends CordovaPlugin {
     }
 
     public static void sendToken(String token) {
-        if(FirebasePlugin.tokenRefreshCallbackContext == null) {
+        if (FirebasePlugin.tokenRefreshCallbackContext == null) {
             return;
         }
         final CallbackContext callbackContext = FirebasePlugin.tokenRefreshCallbackContext;
@@ -228,7 +224,9 @@ public class FirebasePlugin extends CordovaPlugin {
                     String token = FirebaseInstanceId.getInstance().getToken();
                     callbackContext.success(token);
                 } catch (Exception e) {
-                    callbackContext.error(e.getMessage());
+                    StringWriter stringWriter = new StringWriter();
+                    e.printStackTrace(new PrintWriter(stringWriter));
+                    callbackContext.error(stringWriter.toString());
                 }
             }
         });
@@ -241,7 +239,9 @@ public class FirebasePlugin extends CordovaPlugin {
                     String token = FirebaseInstanceId.getInstance().getToken();
                     callbackContext.success(token);
                 } catch (Exception e) {
-                    callbackContext.error(e.getMessage());
+                    StringWriter stringWriter = new StringWriter();
+                    e.printStackTrace(new PrintWriter(stringWriter));
+                    callbackContext.error(stringWriter.toString());
                 }
             }
         });
@@ -258,7 +258,9 @@ public class FirebasePlugin extends CordovaPlugin {
                     ShortcutBadger.applyCount(context, number);
                     callbackContext.success();
                 } catch (Exception e) {
-                    callbackContext.error(e.getMessage());
+                    StringWriter stringWriter = new StringWriter();
+                    e.printStackTrace(new PrintWriter(stringWriter));
+                    callbackContext.error(stringWriter.toString());
                 }
             }
         });
@@ -273,7 +275,9 @@ public class FirebasePlugin extends CordovaPlugin {
                     int number = settings.getInt(KEY, 0);
                     callbackContext.success(number);
                 } catch (Exception e) {
-                    callbackContext.error(e.getMessage());
+                    StringWriter stringWriter = new StringWriter();
+                    e.printStackTrace(new PrintWriter(stringWriter));
+                    callbackContext.error(stringWriter.toString());
                 }
             }
         });
@@ -286,7 +290,9 @@ public class FirebasePlugin extends CordovaPlugin {
                     FirebaseMessaging.getInstance().subscribeToTopic(topic);
                     callbackContext.success();
                 } catch (Exception e) {
-                    callbackContext.error(e.getMessage());
+                    StringWriter stringWriter = new StringWriter();
+                    e.printStackTrace(new PrintWriter(stringWriter));
+                    callbackContext.error(stringWriter.toString());
                 }
             }
         });
@@ -299,7 +305,9 @@ public class FirebasePlugin extends CordovaPlugin {
                     FirebaseMessaging.getInstance().unsubscribeFromTopic(topic);
                     callbackContext.success();
                 } catch (Exception e) {
-                    callbackContext.error(e.getMessage());
+                    StringWriter stringWriter = new StringWriter();
+                    e.printStackTrace(new PrintWriter(stringWriter));
+                    callbackContext.error(stringWriter.toString());
                 }
             }
         });
@@ -308,12 +316,12 @@ public class FirebasePlugin extends CordovaPlugin {
     private void logEvent(final CallbackContext callbackContext, final String name, final JSONObject params) throws JSONException {
         final Bundle bundle = new Bundle();
         Iterator iter = params.keys();
-        while(iter.hasNext()){
-            String key = (String)iter.next();
+        while (iter.hasNext()) {
+            String key = (String) iter.next();
             Object value = params.get(key);
 
             if (value instanceof Integer || value instanceof Double) {
-                bundle.putFloat(key, ((Number)value).floatValue());
+                bundle.putFloat(key, ((Number) value).floatValue());
             } else {
                 bundle.putString(key, value.toString());
             }
@@ -325,7 +333,9 @@ public class FirebasePlugin extends CordovaPlugin {
                     mFirebaseAnalytics.logEvent(name, bundle);
                     callbackContext.success();
                 } catch (Exception e) {
-                    callbackContext.error(e.getMessage());
+                    StringWriter stringWriter = new StringWriter();
+                    e.printStackTrace(new PrintWriter(stringWriter));
+                    callbackContext.error(stringWriter.toString());
                 }
             }
         });
@@ -338,7 +348,9 @@ public class FirebasePlugin extends CordovaPlugin {
                     mFirebaseAnalytics.setUserId(id);
                     callbackContext.success();
                 } catch (Exception e) {
-                    callbackContext.error(e.getMessage());
+                    StringWriter stringWriter = new StringWriter();
+                    e.printStackTrace(new PrintWriter(stringWriter));
+                    callbackContext.error(stringWriter.toString());
                 }
             }
         });
@@ -351,7 +363,9 @@ public class FirebasePlugin extends CordovaPlugin {
                     mFirebaseAnalytics.setUserProperty(name, value);
                     callbackContext.success();
                 } catch (Exception e) {
-                    callbackContext.error(e.getMessage());
+                    StringWriter stringWriter = new StringWriter();
+                    e.printStackTrace(new PrintWriter(stringWriter));
+                    callbackContext.error(stringWriter.toString());
                 }
             }
         });
@@ -364,7 +378,9 @@ public class FirebasePlugin extends CordovaPlugin {
                     final boolean activated = FirebaseRemoteConfig.getInstance().activateFetched();
                     callbackContext.success(String.valueOf(activated));
                 } catch (Exception e) {
-                    callbackContext.error(e.getMessage());
+                    StringWriter stringWriter = new StringWriter();
+                    e.printStackTrace(new PrintWriter(stringWriter));
+                    callbackContext.error(stringWriter.toString());
                 }
             }
         });
@@ -390,11 +406,15 @@ public class FirebasePlugin extends CordovaPlugin {
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(Exception e) {
-                            callbackContext.error(e.getMessage());
+                            StringWriter stringWriter = new StringWriter();
+                            e.printStackTrace(new PrintWriter(stringWriter));
+                            callbackContext.error(stringWriter.toString());
                         }
                     });
                 } catch (Exception e) {
-                    callbackContext.error(e.getMessage());
+                    StringWriter stringWriter = new StringWriter();
+                    e.printStackTrace(new PrintWriter(stringWriter));
+                    callbackContext.error(stringWriter.toString());
                 }
             }
         });
@@ -411,7 +431,9 @@ public class FirebasePlugin extends CordovaPlugin {
                     object.put("array", new JSONArray(bytes));
                     callbackContext.success(object);
                 } catch (Exception e) {
-                    callbackContext.error(e.getMessage());
+                    StringWriter stringWriter = new StringWriter();
+                    e.printStackTrace(new PrintWriter(stringWriter));
+                    callbackContext.error(stringWriter.toString());
                 }
             }
         });
@@ -425,7 +447,9 @@ public class FirebasePlugin extends CordovaPlugin {
                             : FirebaseRemoteConfig.getInstance().getValue(key, namespace);
                     callbackContext.success(value.asString());
                 } catch (Exception e) {
-                    callbackContext.error(e.getMessage());
+                    StringWriter stringWriter = new StringWriter();
+                    e.printStackTrace(new PrintWriter(stringWriter));
+                    callbackContext.error(stringWriter.toString());
                 }
             }
         });
@@ -447,7 +471,9 @@ public class FirebasePlugin extends CordovaPlugin {
 
                     callbackContext.success(info);
                 } catch (Exception e) {
-                    callbackContext.error(e.getMessage());
+                    StringWriter stringWriter = new StringWriter();
+                    e.printStackTrace(new PrintWriter(stringWriter));
+                    callbackContext.error(stringWriter.toString());
                 }
             }
         });
@@ -463,7 +489,9 @@ public class FirebasePlugin extends CordovaPlugin {
                     FirebaseRemoteConfig.getInstance().setConfigSettings(settings.build());
                     callbackContext.success();
                 } catch (Exception e) {
-                    callbackContext.error(e.getMessage());
+                    StringWriter stringWriter = new StringWriter();
+                    e.printStackTrace(new PrintWriter(stringWriter));
+                    callbackContext.error(stringWriter.toString());
                 }
             }
         });
@@ -479,7 +507,9 @@ public class FirebasePlugin extends CordovaPlugin {
                         FirebaseRemoteConfig.getInstance().setDefaults(defaultsToMap(defaults), namespace);
                     callbackContext.success();
                 } catch (Exception e) {
-                    callbackContext.error(e.getMessage());
+                    StringWriter stringWriter = new StringWriter();
+                    e.printStackTrace(new PrintWriter(stringWriter));
+                    callbackContext.error(stringWriter.toString());
                 }
             }
         });
