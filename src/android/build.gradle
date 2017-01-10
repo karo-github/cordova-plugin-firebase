@@ -1,14 +1,17 @@
 apply plugin: 'com.android.application'
 buildscript {
     repositories {
-        mavenCentral()
+        jcenter()
+        mavenLocal()
     }
     dependencies {
+		classpath 'com.android.tools.build:gradle:2.2.0'
         classpath 'com.google.gms:google-services:3.0.0'
     }
 }
 repositories {
-    mavenCentral()
+    jcenter()
+      mavenLocal()
 }
 dependencies {
     compile 'me.leolin:ShortcutBadger:1.1.4@aar'
